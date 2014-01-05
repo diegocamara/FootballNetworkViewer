@@ -37,8 +37,8 @@ public class Field extends JPanel {
 		setSize(new Dimension(WIDTH, HEIGHT));
 		
 		
-		//p1 = new Point(50,300);
-		//p2 = new Point(200,50);
+		p1 = new Point(50,300);
+		p2 = new Point(50,150);
 		//ball = new Ball(p1,p2,50,100,this);
 		
 		players = new ArrayList<>();
@@ -54,12 +54,14 @@ public class Field extends JPanel {
 		}		
 		
 		
-		//ball = new Ball(players.get(0).center,players.get(0).adjacencias.get(0).center,players.get(0).center.x,players.get(0).adjacencias.get(0).center.x,this);
-		//ball = new Ball(p1,p2,p1.x,p2.x,this);	
+		//ball = new Ball(players.get(0).center,players.get(0).adjacencias.get(0).center,this);
+		//ball = new Ball(p1,p2,this);	
 		
 		
 		//t1 = new Thread(ball);
 		//t1.start();	
+		
+		outOfCollision();
 		
 		mouseInPanel = new Point();
 
@@ -67,7 +69,31 @@ public class Field extends JPanel {
 
 		addMouseListener(mouse);
 		addMouseMotionListener(mouse);
+		
+		
+		
 
+	}
+
+	private void outOfCollision() {
+		for (Player player : this.getPlayers()) {
+
+			player.setPointDistancePlayer(this.getPlayers());
+
+			// saindo da colis√£o.
+			while (player.hasCollision()) {
+				// System.out.println("Collision");
+
+				player.x += 1;
+
+				// atualizando centro do circulo.
+				player.center = new Point(player.x + (player.w / 2), player.y
+						+ (player.h / 2));
+				player.setPointDistancePlayer(this.getPlayers());
+
+			}
+
+		}
 	}
 	
 	public List<Player> filter(List<Player> players){
@@ -96,6 +122,8 @@ public class Field extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
+		
+		
 		Graphics2D g2 = (Graphics2D) g.create();
 
 		for (Player player : players) {
@@ -109,27 +137,15 @@ public class Field extends JPanel {
 			g2.drawString("Power " + player.power, player.x, player.y-(player.h/2));
 			g2.setColor(Color.WHITE);
 			g2.drawString(player.number,player.center.x, player.center.y);
-			g2.setColor(Color.BLACK);
-			//g2.drawLine(player.center.x, player.center.y, mouseInPanel.x, mouseInPanel.y);
-			//g2.drawLine(p1.x,p1.y,p2.x,p2.y);
+			g2.setColor(Color.BLACK);			
+									
+			//g2.drawLine(p1.x, p1.y, p2.x, p2.y);
 			
-			
-			/*
-			int a = (p2.y-p1.y)/(p2.x-p1.x);
-			int b = -(a*p1.x)+p1.y;				
-			
-			for(int x = 50; x <= 100; x++){
-				int y = a*x+b;
-				g2.drawArc(new Point(x, y).x-15, new Point(x, y).y-15, 30, 30, 0, 360);		
-			}
-			
-			g2.drawArc(new Point(50, a*50+b).x-15, new Point(50, a*50+b).y-15, 30, 30, 0, 360);	
-			*/	
-			
-			
-			
-			//g2.drawArc(ball.point.x-15, ball.point.y-15, 30, 30, 0, 360);
-			
+			//g2.setColor(Color.WHITE);		
+				//g2.fillArc(ball.point.x-5, ball.point.y-5, 10, 10, 0, 360);
+			//g2.setColor(Color.BLACK);
+				//ball.updatePoints(players.get(0).center,players.get(0).adjacencias.get(0).center);
+						
 			//Todos os caminhos possiveis.
 			/*
 			//Desenhando as linhas do player atual para o outros players.
@@ -165,9 +181,7 @@ public class Field extends JPanel {
 			
 		}
 
-		//System.out.println(filter(players).size());
-		
-		
+				
 		g2.drawString(mouseInPanel.toString(), 10, 10);
 		
 		//Desenha a marca do player que n„o estiver null.
@@ -211,7 +225,5 @@ public class Field extends JPanel {
 	public void setPlayerFinal(Player playerFinal) {
 		this.playerFinal = playerFinal;
 	}
-			
-	
-		
+				
 }// fim da classe Field
