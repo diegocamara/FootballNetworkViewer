@@ -117,6 +117,8 @@ public class Mouse implements MouseListener, MouseMotionListener {
 					} else {
 						if (!player.equals(field.getPlayerFinal())) {
 							field.setPlayerInicial(player);
+						}else{
+							field.setPlayerFinal(null);
 						}
 					}
 
@@ -124,14 +126,7 @@ public class Mouse implements MouseListener, MouseMotionListener {
 
 			}// fim do for.
 
-			if (field.getPlayerInicial() != null) {
-				System.out
-						.println("Inicial " + field.getPlayerInicial().number);
-			}
-			if (field.getPlayerFinal() != null) {
-				System.out.println("final " + field.getPlayerFinal().number);
-			}
-
+			
 		}
 
 	}// fim do método mouseClicked.
