@@ -17,8 +17,13 @@ public class Field extends JPanel {
 
 	private final int WIDTH = 900;
 	private final int HEIGHT = 600;
+	private final int PLAYER_WIDTH = 50;
+	private final int PLAYER_HEIGHT = 50;
 	
 	private List<Player> players;
+	
+	private Player playerInicial;
+	private Player playerFinal;
 	
 	Point mouseInPanel;
 	Point p1;
@@ -40,7 +45,7 @@ public class Field extends JPanel {
 
 		
 		for(int i = 0; i < 11; ++i){
-			players.add(new Player(25+new Random().nextInt(WIDTH-200), 25 + new Random().nextInt(HEIGHT-200), 50, 50, new String(""+i)));
+			players.add(new Player(25+new Random().nextInt(WIDTH-200), 25 + new Random().nextInt(HEIGHT-200), PLAYER_WIDTH, PLAYER_HEIGHT, new String(""+i)));
 		}
 		
 
@@ -165,6 +170,19 @@ public class Field extends JPanel {
 		
 		g2.drawString(mouseInPanel.toString(), 10, 10);
 		
+		//Desenha a marca do player que não estiver null.
+		if(getPlayerInicial() != null){
+			g2.setColor(Color.RED);
+			g2.fillArc(getPlayerInicial().x, getPlayerInicial().y, getPlayerInicial().getW(), getPlayerInicial().getH(), 0, 360);
+			g2.setColor(Color.BLACK);
+		}
+		
+		if(getPlayerFinal() != null){
+			g2.setColor(Color.BLUE);
+			g2.fillArc(getPlayerFinal().x, getPlayerFinal().y, getPlayerFinal().getW(), getPlayerFinal().getH(), 0, 360);
+			g2.setColor(Color.BLACK);
+		}
+		
 
 		// g2.drawImage(fieldImage,0,0,this);
 
@@ -177,6 +195,23 @@ public class Field extends JPanel {
 	public void setPlayers(List<Player> players) {
 		this.players = players;
 	}
+
+	public Player getPlayerInicial() {
+		return playerInicial;
+	}
+
+	public void setPlayerInicial(Player playerInicial) {
+		this.playerInicial = playerInicial;
+	}
+
+	public Player getPlayerFinal() {
+		return playerFinal;
+	}
+
+	public void setPlayerFinal(Player playerFinal) {
+		this.playerFinal = playerFinal;
+	}
 			
+	
 		
 }// fim da classe Field

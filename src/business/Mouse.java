@@ -1,4 +1,5 @@
 package business;
+
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -30,7 +31,7 @@ public class Mouse implements MouseListener, MouseMotionListener {
 			// Se estiver dentro do raio.
 			if (player.pointDistanceMouse <= player.r) {
 
-				// atualizando posiï¿½ï¿½o do circulo quando o mouse se move
+				// atualizando posição do circulo quando o mouse se move
 				// sendo
 				// clicado.
 				player.x = player.posAnteriorX
@@ -73,7 +74,67 @@ public class Mouse implements MouseListener, MouseMotionListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 
-	}
+		if (e.getClickCount() == 2) {
+
+			// pegando o player que foi clicado duas vezes.
+			for (Player player : field.getPlayers()) {
+
+				if (player.pointDistanceMouse <= player.r) {
+
+					/*
+					 * Se o primeiro player for clicado duas vezes, configura o
+					 * playerInicial com o player clicado.
+					 * 
+					 * Se o primeiro player for clicado duas vezes quando já
+					 * estiver configurado o player inicial é configurado como
+					 * null.
+					 * 
+					 * Se o primeiro player já estiver configurado e um player
+					 * diferente for clicado duas vezes, o playerFinal é
+					 * configurado com o player clicado após o primeiro.
+					 * 
+					 * Se o segundo player for clicado duas vezes quando já
+					 * estiver configurado o player final é configurado como
+					 * null.
+					 */
+
+					if (field.getPlayerInicial() != null) {
+
+						if (player.equals(field.getPlayerInicial())) {
+							field.setPlayerInicial(null);
+						} else {
+
+							if (field.getPlayerFinal() != null) {
+								if (player.equals(field.getPlayerFinal())) {
+									field.setPlayerFinal(null);
+								}
+							} else {
+								field.setPlayerFinal(player);
+							}
+
+						}
+
+					} else {
+						if (!player.equals(field.getPlayerFinal())) {
+							field.setPlayerInicial(player);
+						}
+					}
+
+				}
+
+			}// fim do for.
+
+			if (field.getPlayerInicial() != null) {
+				System.out
+						.println("Inicial " + field.getPlayerInicial().number);
+			}
+			if (field.getPlayerFinal() != null) {
+				System.out.println("final " + field.getPlayerFinal().number);
+			}
+
+		}
+
+	}// fim do método mouseClicked.
 
 	@Override
 	public void mousePressed(MouseEvent e) {
