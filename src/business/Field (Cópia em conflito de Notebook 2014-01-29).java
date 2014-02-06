@@ -21,7 +21,6 @@ public class Field extends JPanel {
 	private final int PLAYER_HEIGHT = 50;
 	
 	private List<Player> players;
-	private VetorDeDistancia vetorDeDistancia;
 	
 	private Player playerInicial;
 	private Player playerFinal;
@@ -29,12 +28,12 @@ public class Field extends JPanel {
 	Point mouseInPanel;
 	Point p1;
 	Point p2;
+	Ball ball;
 	Thread t1;
-	private Ball ball;
 	
 
 	public Field() {
-						
+		
 		setSize(new Dimension(WIDTH, HEIGHT));
 		
 		
@@ -55,12 +54,12 @@ public class Field extends JPanel {
 		}		
 		
 		
-		//ball = new Ball(players.get(0).center,players.get(0).adjacencias.get(0).center,this);
+		ball = new Ball(players.get(0).center,players.get(0).adjacencias.get(0).center,this);
 		//ball = new Ball(p1,p2,this);	
 		
 		
-		//t1 = new Thread(ball);
-		//t1.start();	
+		t1 = new Thread(ball);
+		t1.start();	
 		
 		outOfCollision();
 		
@@ -141,16 +140,11 @@ public class Field extends JPanel {
 			g2.setColor(Color.BLACK);			
 									
 			//g2.drawLine(p1.x, p1.y, p2.x, p2.y);
-			if(ball != null){
+			
 			g2.setColor(Color.WHITE);		
 				g2.fillArc(ball.point.x-5, ball.point.y-5, 10, 10, 0, 360);
 			g2.setColor(Color.BLACK);
-			}
-			
-			if(ball != null && !ball.continueProcess){
-				ball = null;
-			}
-				//ball.updatePoints(players.get(0).center,players.get(0).adjacencias.get(0).center);
+				ball.updatePoints(players.get(0).center,players.get(0).adjacencias.get(0).center);
 						
 			//Todos os caminhos possiveis.
 			/*
@@ -207,10 +201,6 @@ public class Field extends JPanel {
 		// g2.drawImage(fieldImage,0,0,this);
 
 	}// fim do método paintComponent.
-	
-	public boolean playersSelecionados(){
-		return playerInicial != null && playerFinal != null;
-	}
 
 	public List<Player> getPlayers() {
 		return players;
@@ -235,23 +225,5 @@ public class Field extends JPanel {
 	public void setPlayerFinal(Player playerFinal) {
 		this.playerFinal = playerFinal;
 	}
-
-	public Ball getBall() {
-		return ball;
-	}
-
-	public void setBall(Ball ball) {
-		this.ball = ball;
-	}
-
-	public VetorDeDistancia getVetorDeDistancia() {
-		return vetorDeDistancia;
-	}
-
-	public void setVetorDeDistancia(VetorDeDistancia vetorDeDistancia) {
-		this.vetorDeDistancia = vetorDeDistancia;
-	}
-	
-	
 				
 }// fim da classe Field

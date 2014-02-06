@@ -126,7 +126,7 @@ public class Mouse implements MouseListener, MouseMotionListener {
 
 			}// fim do for.
 
-			
+			field.repaint();
 		}
 
 	}// fim do método mouseClicked.
@@ -152,9 +152,9 @@ public class Mouse implements MouseListener, MouseMotionListener {
 
 		// atualizando valores gerais.
 		for (Player player : field.getPlayers()) {
-
-			player.setPointDistancePlayer(field.getPlayers());
-
+						
+			player.setPointDistancePlayer(field.getPlayers());			
+			
 			// saindo da colisÃ£o.
 			while (player.hasCollision()) {
 				// System.out.println("Collision");
@@ -169,8 +169,25 @@ public class Mouse implements MouseListener, MouseMotionListener {
 			}
 
 		}
-
-		// System.out.println(field.filter(field.players).size());
+		
+		//Vetor de distancias.		
+		field.getVetorDeDistancia().tabelaInicial();		
+		field.getVetorDeDistancia().propagar();		
+		
+		System.out.println(field.getPlayers().get(0).getVetorDeDistancia());
+		System.out.println(field.getPlayers().get(1).getVetorDeDistancia());
+		System.out.println(field.getPlayers().get(2).getVetorDeDistancia());
+		System.out.println(field.getPlayers().get(3).getVetorDeDistancia());
+		System.out.println(field.getPlayers().get(4).getVetorDeDistancia());
+		System.out.println(field.getPlayers().get(5).getVetorDeDistancia());
+		System.out.println(field.getPlayers().get(6).getVetorDeDistancia());
+		System.out.println(field.getPlayers().get(7).getVetorDeDistancia());
+		System.out.println(field.getPlayers().get(8).getVetorDeDistancia());
+		System.out.println(field.getPlayers().get(9).getVetorDeDistancia());
+		System.out.println(field.getPlayers().get(10).getVetorDeDistancia());
+		System.out.println("Player Inicial " + field.getPlayerInicial());
+		System.out.println("Player Final " + field.getPlayerFinal());
+		System.out.println("----------------------------------------------");
 
 	}
 

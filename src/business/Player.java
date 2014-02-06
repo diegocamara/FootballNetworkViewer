@@ -1,33 +1,44 @@
 package business;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
+import java.util.Map;
+
+import presentation.ApplicationWindow;
 
 
-public class Player{
+public class Player implements Comparable<Player>{
 	
 	int x,y,w,h,r;
 	Point center;
 	int posAnteriorX,posAnteriorY,pointDistanceMouse;
 	List<Integer> pointDistancePlayer;	
 	List<Point> pointDistancePlayerCenter;
+	List<PlayerDistance> playerDistance;
 	List<Player> adjacencias;
 	int power;
 	String number;
+	Rotulo rotulo;
+	Map<String,Integer> vetorDeDistancia;	
+	int minVector;
 	
 	
 	public Player(int x, int y, int w, int h, String number){
-		
+				
 		pointDistancePlayer = new ArrayList<>();
 		
 		pointDistancePlayerCenter = new ArrayList<>();
 		
 		adjacencias = new ArrayList<>();
 		
-		this.power = 200 + new Random().nextInt(100);
+		vetorDeDistancia = new HashMap<>();
 		
+		//this.power = 200 + new Random().nextInt(100);
+		this.power = ApplicationWindow.DISTANCIA_MINIMA_ADJACENTE;
 		this.number = number;
+		
+		this.rotulo = new Rotulo();
 		
 		this.x = x;
 		this.y = y;
@@ -37,6 +48,11 @@ public class Player{
 		center = new Point(x+(w/2), y+(h/2));
 		
 	}
+	
+	public Player(){
+		
+	}	
+	
 
 	public boolean hasCollision(){
 		
@@ -60,6 +76,7 @@ public class Player{
 		
 		pointDistancePlayer = new ArrayList<>();
 		pointDistancePlayerCenter = new ArrayList<>();
+		playerDistance = new ArrayList<>();
 		adjacencias = new ArrayList<>();
 		
 		for (Player player : players) {
@@ -72,13 +89,15 @@ public class Player{
 				}
 				
 				pointDistancePlayer.add(distancia);
+				playerDistance.add(new PlayerDistance(distancia, player.number));
 				pointDistancePlayerCenter.add(player.center);
 				
 				//System.out.println(distancia);
 			}
-			
-		}		
+						
+		}
 		
+				
 	}
 
 	public int getX() {
@@ -139,6 +158,83 @@ public class Player{
 
 	public void setPower(int power) {
 		this.power = power;
+	}	
+
+	public Rotulo getRotulo() {
+		return rotulo;
+	}
+
+	public void setRotulo(Rotulo rotulo) {
+		this.rotulo = rotulo;
+	}	
+
+	public String getNumber() {
+		return number;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
+	}	
+
+	public List<Player> getAdjacencias() {
+		return adjacencias;
+	}
+
+	public void setAdjacencias(List<Player> adjacencias) {
+		this.adjacencias = adjacencias;
+	}
+				
+	public int getPointDistanceMouse() {
+		return pointDistanceMouse;
+	}
+
+	public void setPointDistanceMouse(int pointDistanceMouse) {
+		this.pointDistanceMouse = pointDistanceMouse;
+	}
+
+	public List<Point> getPointDistancePlayerCenter() {
+		return pointDistancePlayerCenter;
+	}
+
+	public void setPointDistancePlayerCenter(List<Point> pointDistancePlayerCenter) {
+		this.pointDistancePlayerCenter = pointDistancePlayerCenter;
+	}
+
+	public void setPointDistancePlayerP(List<Integer> pointDistancePlayer) {
+		this.pointDistancePlayer = pointDistancePlayer;
+	}
+
+	public List<Integer> getPointDistancePlayer() {
+		return pointDistancePlayer;
+	}	
+	
+	public List<PlayerDistance> getPlayerDistance() {
+		return playerDistance;
+	}
+
+	public void setPlayerDistance(List<PlayerDistance> playerDistance) {
+		this.playerDistance = playerDistance;
+	}
+		
+	public Map<String, Integer> getVetorDeDistancia() {
+		return vetorDeDistancia;
+	}
+
+	public void setVetorDeDistancia(Map<String, Integer> vetorDeDistancia) {
+		this.vetorDeDistancia = vetorDeDistancia;
+	}
+		
+	public int getMinVector() {
+		return minVector;
+	}
+
+	public void setMinVector(int minVector) {
+		this.minVector = minVector;
+	}
+
+	@Override
+	public String toString() {
+		return "Player [number=" + number + "]";
 	}
 
 	@Override
@@ -167,6 +263,30 @@ public class Player{
 	}
 
 	
+
+			
+	public int getDistance(List<PlayerDistance> distances, String id){				
 		
+		int result = 0;
+		int index = Integer.parseInt(id);
+		
+		
+		for(PlayerDistance pd : distances){
+			
+			if(pd.getNome().equals(id)){
+				result = pd.getDistancia();
+			}
+			
+		}				
+		
+		return result;			
+		
+	}	
+	
+	@Override
+	public int compareTo(Player o) {
+		return Double.compare(rotulo.getDistanciaMinima(), o.getRotulo().getDistanciaMinima());
+		//return Double.compare(minDistance, o.minDistance);
+	}
 	
 }// fim da classe Player.

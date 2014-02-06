@@ -1,0 +1,14 @@
+#Fat Jar Configuration File
+#Tue Jan 07 17:14:38 GMT-03:00 2014
+onejar.license.required=true
+manifest.classpath=
+manifest.removesigners=true
+onejar.checkbox=false
+jarname=Football Network Viewer.jar
+manifest.mergeall=true
+manifest.mainclass=Application
+manifest.file=<createnew>
+jarname.isextern=false
+onejar.expand=
+excludes=
+includes=

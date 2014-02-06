@@ -1,6 +1,7 @@
 package business;
 
 import java.awt.Point;
+import java.util.List;
 
 public class Ball implements Runnable {
 
@@ -13,10 +14,22 @@ public class Ball implements Runnable {
 	int yFinal;
 	boolean continueProcess;
 	Field field;
+	List<Player> path;
+	int index;
 
 	public Ball(Point pontoA, Point pontoB, Field field) {
 		setPoints(pontoA, pontoB, field);
 		setBallPoint(pontoA, pontoB);
+	}
+
+	public Ball(List<Player> path, Field field) {
+		this.path = path;
+		this.field = field;
+		index = 0;
+		setPoints(path.get(index).getCenter(), path.get(index + 1).getCenter(),
+				field);
+		setBallPoint(path.get(index).getCenter(), path.get(index + 1)
+				.getCenter());
 	}
 
 	private void setPoints(Point pontoA, Point pontoB, Field field) {
@@ -29,7 +42,7 @@ public class Ball implements Runnable {
 		this.field = field;
 		this.continueProcess = true;
 	}
-	
+
 	private synchronized void setBallPoint(Point pontoA, Point pontoB) {
 
 		// Equação da reta para intervalos x > 0;
@@ -44,7 +57,7 @@ public class Ball implements Runnable {
 			this.point = new Point(xInicial, y);
 
 			xInicial += 3;
-			
+
 			if (xInicial >= xFinal) {
 				continueProcess = false;
 			}
@@ -59,7 +72,7 @@ public class Ball implements Runnable {
 			int y = ((-a * xInicial) - c) / b;
 
 			this.point = new Point(xInicial, y);
-			
+
 			xInicial -= 3;
 
 			if (xInicial <= xFinal) {
@@ -71,50 +84,64 @@ public class Ball implements Runnable {
 			if (pontoA.y > pontoB.y) {
 				this.point = new Point(xInicial, yInicial);
 				yInicial -= 2;
-				
+
 				if (yInicial <= yFinal) {
 					continueProcess = false;
 				}
-				
+
 			} else {
 				this.point = new Point(xInicial, yInicial++);
 				yInicial += 2;
-				
+
 				if (yInicial >= yFinal) {
 					continueProcess = false;
 				}
-				
-			}
 
-			
+			}
 
 		}
 
 	}// fim do método setBallPoint.
-		
-	public void updatePoints(Point pontoA, Point pontoB){
+
+	public void updatePoints(Point pontoA, Point pontoB) {
 		this.pontoA = pontoA;
-		this.pontoB = pontoB;		
+		this.pontoB = pontoB;
 		this.xFinal = pontoB.x;
 		this.yInicial = pontoA.y;
 		this.yFinal = pontoB.y;
-		
+
 	}
 
 	@Override
 	public void run() {
 
 		while (true) {
-
+						
 			setBallPoint(pontoA, pontoB);
 			this.field.repaint();
 
-			if (!continueProcess) {
-				break;
+			if (!continueProcess) {			
+				
+								
+				if(index+1 < path.size()){
+					index++;				
+				}
+				
+								
+				pontoA = path.get(index).getCenter();
+				
+				if(index+1 < path.size()){
+				pontoB = path.get(index+1).getCenter();	
+				}
+				continueProcess = true;
+				setPoints(pontoA, pontoB, field);
+
+				
+				
 			}
 
 			try {
-				Thread.sleep(100);
+				Thread.sleep(50);
 			} catch (InterruptedException ex) {
 
 			}
@@ -129,6 +156,14 @@ public class Ball implements Runnable {
 
 	public void setPoint(Point point) {
 		this.point = point;
+	}
+
+	public List<Player> getPath() {
+		return path;
+	}
+
+	public void setPath(List<Player> path) {
+		this.path = path;
 	}
 
 }// fim da classe Ball.
