@@ -1,22 +1,28 @@
 package business;
 
+import java.awt.Label;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+
+import javax.swing.JLabel;
+
+import presentation.ApplicationWindow;
+import presentation.Labels;
 
 public class Mouse implements MouseListener, MouseMotionListener {
 
 	Field field;
 	Point mouseInPanel;
 	int pontoInicialClickX = 0;
-	int pontoInicialClickY = 0;
-
+	int pontoInicialClickY = 0;	
+	
 	boolean mouseClicaoMovendo = false;
 
 	public Mouse(Field field, Point mouseInPanel) {
 		this.field = field;
-		this.mouseInPanel = mouseInPanel;
+		this.mouseInPanel = mouseInPanel;		
 	}
 
 	@Override
@@ -102,14 +108,17 @@ public class Mouse implements MouseListener, MouseMotionListener {
 
 						if (player.equals(field.getPlayerInicial())) {
 							field.setPlayerInicial(null);
+							field.getPlayerInicialLabel().setText(Labels.MENSAGEM_PLAYER_NAO_SELECIONADO_LABEL);
 						} else {
 
 							if (field.getPlayerFinal() != null) {
 								if (player.equals(field.getPlayerFinal())) {
 									field.setPlayerFinal(null);
+									field.getPlayerFinalLabel().setText(Labels.MENSAGEM_PLAYER_NAO_SELECIONADO_LABEL);
 								}
 							} else {
 								field.setPlayerFinal(player);
+								field.getPlayerFinalLabel().setText(player.number);
 							}
 
 						}
@@ -117,15 +126,17 @@ public class Mouse implements MouseListener, MouseMotionListener {
 					} else {
 						if (!player.equals(field.getPlayerFinal())) {
 							field.setPlayerInicial(player);
+							field.getPlayerInicialLabel().setText(player.number);
 						}else{
 							field.setPlayerFinal(null);
+							field.getPlayerFinalLabel().setText(Labels.MENSAGEM_PLAYER_NAO_SELECIONADO_LABEL);
 						}
 					}
 
 				}
 
 			}// fim do for.
-
+			
 			field.repaint();
 		}
 
@@ -174,21 +185,7 @@ public class Mouse implements MouseListener, MouseMotionListener {
 		field.getVetorDeDistancia().tabelaInicial();		
 		field.getVetorDeDistancia().propagar();		
 		
-		System.out.println(field.getPlayers().get(0).getVetorDeDistancia());
-		System.out.println(field.getPlayers().get(1).getVetorDeDistancia());
-		System.out.println(field.getPlayers().get(2).getVetorDeDistancia());
-		System.out.println(field.getPlayers().get(3).getVetorDeDistancia());
-		System.out.println(field.getPlayers().get(4).getVetorDeDistancia());
-		System.out.println(field.getPlayers().get(5).getVetorDeDistancia());
-		System.out.println(field.getPlayers().get(6).getVetorDeDistancia());
-		System.out.println(field.getPlayers().get(7).getVetorDeDistancia());
-		System.out.println(field.getPlayers().get(8).getVetorDeDistancia());
-		System.out.println(field.getPlayers().get(9).getVetorDeDistancia());
-		System.out.println(field.getPlayers().get(10).getVetorDeDistancia());
-		System.out.println("Player Inicial " + field.getPlayerInicial());
-		System.out.println("Player Final " + field.getPlayerFinal());
-		System.out.println("----------------------------------------------");
-
+		
 	}
 
 	@Override

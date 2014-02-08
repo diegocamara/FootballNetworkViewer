@@ -21,6 +21,7 @@ public class TableWindow extends JFrame {
 		
 
 		tabela = new JTable(getLinhas(player), colunas);
+		tabela.setEnabled(false);
 		add(tabela);
 		setTitle(title);
 		setSize(new Dimension(WIDTH, HEIGHT));

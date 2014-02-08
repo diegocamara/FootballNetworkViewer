@@ -13,5 +13,6 @@ public class Labels {
 	public static final String VETOR_DE_DISTANCIA = "Vetor de Distância";
 	
 	public static final String PLAYERS_NAO_SELECIONADOS = "Defina uma origem e um destino!";
+	public static final String MENSAGEM_PLAYER_NAO_SELECIONADO_LABEL = "Não selecionado";
 	
 }

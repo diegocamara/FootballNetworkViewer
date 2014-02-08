@@ -5,13 +5,21 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import javax.imageio.ImageIO;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import presentation.ApplicationWindow;
+import presentation.Labels;
 
 public class Field extends JPanel {
 
@@ -27,23 +35,31 @@ public class Field extends JPanel {
 	private Player playerFinal;
 	
 	Point mouseInPanel;
-	Point p1;
-	Point p2;
+	
 	Thread t1;
 	private Ball ball;
+	private BufferedImage fieldImage;
+	private BufferedImage ballImage;
+	
+	private JLabel playerInicialLabel;
+	private JLabel playerFinalLabel;
+	
 	
 
 	public Field() {
 						
 		setSize(new Dimension(WIDTH, HEIGHT));
-		
-		
-		p1 = new Point(50,300);
-		p2 = new Point(50,150);
-		//ball = new Ball(p1,p2,50,100,this);
-		
+		try{
+			fieldImage = ImageIO.read(getClass().getResource("/images/field.png"));	
+			ballImage = ImageIO.read(getClass().getResource("/images/soccerBall.png"));
+		}catch(IOException e){
+			
+		}
 		players = new ArrayList<>();
 
+		playerInicialLabel = new JLabel(Labels.MENSAGEM_PLAYER_NAO_SELECIONADO_LABEL);
+		playerFinalLabel = new JLabel(Labels.MENSAGEM_PLAYER_NAO_SELECIONADO_LABEL);
+		
 		
 		for(int i = 0; i < 11; ++i){
 			players.add(new Player(25+new Random().nextInt(WIDTH-200), 25 + new Random().nextInt(HEIGHT-200), PLAYER_WIDTH, PLAYER_HEIGHT, new String(""+i)));
@@ -53,14 +69,7 @@ public class Field extends JPanel {
 		for(int i = 0; i < 11; ++i){
 			players.get(i).setPointDistancePlayer(players);			
 		}		
-		
-		
-		//ball = new Ball(players.get(0).center,players.get(0).adjacencias.get(0).center,this);
-		//ball = new Ball(p1,p2,this);	
-		
-		
-		//t1 = new Thread(ball);
-		//t1.start();	
+				
 		
 		outOfCollision();
 		
@@ -83,8 +92,7 @@ public class Field extends JPanel {
 
 			// saindo da colisão.
 			while (player.hasCollision()) {
-				// System.out.println("Collision");
-
+				
 				player.x += 1;
 
 				// atualizando centro do circulo.
@@ -122,35 +130,38 @@ public class Field extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-
-		
 		
 		Graphics2D g2 = (Graphics2D) g.create();
-
+		
+		g2.drawImage(fieldImage, 0, 0, WIDTH, HEIGHT, null);
+		
+		
 		for (Player player : players) {
 			
 			g2.setColor(Color.BLACK);
 			
 			g2.fillArc(player.getX(), player.getY(), player.getW(),
 					player.getH(), 0, 360);
-			//g2.drawString(player.center + " ", 30, 30);
+			
 			g2.drawString("" + player.x + " , " + player.y, player.x, player.y);
 			g2.drawString("Power " + player.power, player.x, player.y-(player.h/2));
 			g2.setColor(Color.WHITE);
 			g2.drawString(player.number,player.center.x, player.center.y);
 			g2.setColor(Color.BLACK);			
 									
-			//g2.drawLine(p1.x, p1.y, p2.x, p2.y);
+			
 			if(ball != null){
 			g2.setColor(Color.WHITE);		
-				g2.fillArc(ball.point.x-5, ball.point.y-5, 10, 10, 0, 360);
+				//g2.fillArc(ball.point.x-5, ball.point.y-5, 10, 10, 0, 360);
+				g2.drawImage(ballImage, ball.point.x-25,ball.point.y-25,50,50,null);
 			g2.setColor(Color.BLACK);
 			}
 			
 			if(ball != null && !ball.continueProcess){
 				ball = null;
+				
 			}
-				//ball.updatePoints(players.get(0).center,players.get(0).adjacencias.get(0).center);
+				
 						
 			//Todos os caminhos possiveis.
 			/*
@@ -188,8 +199,7 @@ public class Field extends JPanel {
 		}
 
 				
-		g2.drawString(mouseInPanel.toString(), 10, 10);
-		
+				
 		//Desenha a marca do player que n�o estiver null.
 		if(getPlayerInicial() != null){
 			g2.setColor(Color.RED);
@@ -204,7 +214,7 @@ public class Field extends JPanel {
 		}
 		
 
-		// g2.drawImage(fieldImage,0,0,this);
+		//g2.drawImage(fieldImage,0,0,this);
 
 	}// fim do método paintComponent.
 	
@@ -250,6 +260,22 @@ public class Field extends JPanel {
 
 	public void setVetorDeDistancia(VetorDeDistancia vetorDeDistancia) {
 		this.vetorDeDistancia = vetorDeDistancia;
+	}
+
+	public JLabel getPlayerInicialLabel() {
+		return playerInicialLabel;
+	}
+
+	public void setPlayerInicialLabel(JLabel playerInicialLabel) {
+		this.playerInicialLabel = playerInicialLabel;
+	}
+
+	public JLabel getPlayerFinalLabel() {
+		return playerFinalLabel;
+	}
+
+	public void setPlayerFinalLabel(JLabel playerFinalLabel) {
+		this.playerFinalLabel = playerFinalLabel;
 	}
 	
 	

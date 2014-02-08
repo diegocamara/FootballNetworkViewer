@@ -38,13 +38,13 @@ public class ApplicationWindow extends JFrame {
 	private JButton executeButton;
 	private JComboBox<String> algorithmList;
 	private Algorithm algorithm;
+	
 
 	public ApplicationWindow(String titulo) {
 
 		setLayout(new MigLayout("", "", "[][]"));
 
-		String[] algorithms = { Labels.DIJKSTRA, Labels.VETOR_DE_DISTANCIA,
-				"algorithm 03", "algorithm 04" };
+		String[] algorithms = { Labels.DIJKSTRA, Labels.VETOR_DE_DISTANCIA };
 
 		algorithmList = new JComboBox<>(algorithms);
 		executeButton = new JButton(Labels.EXECUTAR);
@@ -106,8 +106,7 @@ public class ApplicationWindow extends JFrame {
 
 						MenorCaminho.menorCaminho(field.getPlayers(),
 								field.getPlayerInicial());
-						JOptionPane.showMessageDialog(null, MenorCaminho.menorCaminhoList(field.getPlayerFinal()));
-						
+												
 						List<Player> path = MenorCaminho.menorCaminhoList(field.getPlayerFinal());
 						
 						if(path.size() >= 2){
@@ -140,20 +139,24 @@ public class ApplicationWindow extends JFrame {
 		field.setVetorDeDistancia(new VetorDeDistancia(field));
 
 		field.setLayout(new MigLayout());
-		field.setBackground(Color.LIGHT_GRAY);
-
-		headPanel = new JPanel(new MigLayout("fill"));
+		field.setBackground(Color.LIGHT_GRAY);		
+		
+		headPanel = new JPanel(new MigLayout("fill"));		
 		headPanel.add(distanciaMinimaAdjacenteJLabel, "split 2");
 		headPanel.add(distanciaMinimaAdjacenteTextField, "width :50:,right");
+		headPanel.add(new JLabel("Jogador inicial:"));
+		headPanel.add(field.getPlayerInicialLabel());		
+		headPanel.add(new JLabel("Jogador final:"));
+		headPanel.add(field.getPlayerFinalLabel());		
 		headPanel.add(algorithmList, "width :200:,split 2,right");
 		headPanel.add(executeButton);
-		headPanel.setBackground(Color.LIGHT_GRAY);
-
+		headPanel.setBackground(Color.WHITE);
+		
 		centerPanel = new JPanel(new MigLayout("", "[][]", ""));
 		centerPanel.setBackground(Color.WHITE);
 
 		powersPanel = new PowerPanel(field.getPlayers(), field);
-		powersPanel.setBackground(Color.LIGHT_GRAY);
+		powersPanel.setBackground(Color.WHITE);
 		powersPanel.enableDisablePanel(false);
 		centerPanel.add(powersPanel,
 				"width :150:, height :" + field.getHeight() + ":");
@@ -172,4 +175,18 @@ public class ApplicationWindow extends JFrame {
 
 	}// fim do construtor Window.
 
+
+	public JPanel getHeadPanel() {
+		return headPanel;
+	}
+
+
+	public void setHeadPanel(JPanel headPanel) {
+		this.headPanel = headPanel;
+	}
+
+	
+
+	
+	
 }

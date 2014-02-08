@@ -141,7 +141,7 @@ public class Ball implements Runnable {
 			}
 
 			try {
-				Thread.sleep(50);
+				Thread.sleep(10);
 			} catch (InterruptedException ex) {
 
 			}
