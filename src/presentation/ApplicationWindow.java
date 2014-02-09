@@ -104,18 +104,31 @@ public class ApplicationWindow extends JFrame {
 					
 					if (algorithm.equals(Algorithm.DIJKSTRA)) {
 
+												
 						MenorCaminho.menorCaminho(field.getPlayers(),
 								field.getPlayerInicial());
 												
 						List<Player> path = MenorCaminho.menorCaminhoList(field.getPlayerFinal());
 						
+						
+						
 						if(path.size() >= 2){
+							
+							String out = new String();
+							
+							for(int i = 0; i < path.size(); i++){
+								out += String.format("%s: %s\n", "Passo " + (i+1), path.get(i));
+							}
+							
+							JOptionPane.showMessageDialog(null, out);
+							
 						field.setBall(new Ball(path,field));
 						}
 
 												
 						Thread tr = new Thread(field.getBall());
 						tr.start();
+						MenorCaminho.resetLabel(field.getPlayers());
 
 					}
 					if (algorithm.equals(Algorithm.VETOR_DE_DISTANCIA)) {

@@ -59,4 +59,13 @@ public class MenorCaminho {
 	private static int distanciaEntre(Point u, Point v){				
 		return (int)u.distance(v);
 	}
+	
+	public static void resetLabel(List<Player> players){
+		
+		for(Player player : players){
+			player.getRotulo().setPlayerAnterior(null);
+		}
+		
+	}
+	
 }
