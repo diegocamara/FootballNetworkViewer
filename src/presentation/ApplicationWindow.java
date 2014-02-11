@@ -134,6 +134,16 @@ public class ApplicationWindow extends JFrame {
 					if (algorithm.equals(Algorithm.VETOR_DE_DISTANCIA)) {
 						List<Player> path = field.getVetorDeDistancia().getPath(field.getPlayerInicial(), field.getPlayerFinal());
 						
+
+						String out = new String();
+						
+						for(int i = 0; i < path.size(); i++){
+							out += String.format("%s: %s\n", "Passo " + (i+1), path.get(i));
+						}
+						
+						JOptionPane.showMessageDialog(null, out);
+						
+						
 						field.setBall(new Ball(path, field));
 						
 						Thread tr = new Thread(field.getBall());
@@ -151,6 +161,9 @@ public class ApplicationWindow extends JFrame {
 		field = new Field();
 		field.setVetorDeDistancia(new VetorDeDistancia(field));
 
+		field.getVetorDeDistancia().tabelaInicial();		
+		field.getVetorDeDistancia().propagar();	
+		
 		field.setLayout(new MigLayout());
 		field.setBackground(Color.LIGHT_GRAY);		
 		

@@ -25,8 +25,8 @@ public class Field extends JPanel {
 
 	private final int WIDTH = 900;
 	private final int HEIGHT = 600;
-	private final int PLAYER_WIDTH = 50;
-	private final int PLAYER_HEIGHT = 50;
+	private final int PLAYER_WIDTH = 30;
+	private final int PLAYER_HEIGHT = 30;
 	
 	private List<Player> players;
 	private VetorDeDistancia vetorDeDistancia;
@@ -80,9 +80,6 @@ public class Field extends JPanel {
 		addMouseListener(mouse);
 		addMouseMotionListener(mouse);
 		
-		
-		
-
 	}
 
 	private void outOfCollision() {
@@ -143,10 +140,9 @@ public class Field extends JPanel {
 			g2.fillArc(player.getX(), player.getY(), player.getW(),
 					player.getH(), 0, 360);
 			
-			g2.drawString("" + player.x + " , " + player.y, player.x, player.y);
-			g2.drawString("Power " + player.power, player.x, player.y-(player.h/2));
+			
 			g2.setColor(Color.WHITE);
-			g2.drawString(player.number,player.center.x, player.center.y);
+			g2.drawString(player.number,player.center.x-3, player.center.y+3);
 			g2.setColor(Color.BLACK);			
 									
 			
